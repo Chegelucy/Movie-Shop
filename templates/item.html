@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block head %}
+   <title>{{ item.moviename }}</title>
+    <style>
+    .full{
+        background-image: url("{{ item.poster }}");
+        height: 100%;
+        width: 100%;
+        position: fixed;
+    }
+    .content{
+        margin: 20px;
+        background: var(--body-color2);
+        height: 96%;
+        width: 94%;
+        border-radius: 20px;
+        overflow: hidden;
+        position: fixed;
+    }
+    .content .info{
+        width: 50%;
+        height: 100%;
+        position: absolute;
+        left: 40%;
+        top: 8%;
+    }
+    .head-title{
+        font-size: 2.2rem;
+        color: var(--opposite-color);
+        font-weight: 600;
+    }
+    .description{
+        font-size: 1.1rem;
+        color: var(--opposite-color);
+        font-weight: 400;
+        margin-top: 3%;
+    }
+    .movie-image{
+        width: 30%;
+        height: auto;
+        border-radius: 10px;
+        position: relative;
+        margin-top: 4%;
+        left: 6%;
+    }
+    </style>
+{% endblock %}
+
+{% block content %}
+<div class="full">
+<div class="content">
+<div>
+    <img src="{{ item.poster }}" alt="image" class="movie-image">
+    <div class="info">
+    <h1 class="head-title">{{ item.moviename }}</h1>
+    <p class="description">{{ item.description }}</p>
+        <br>
+        <a href="{{ item.trailer_link }}" target="_blank" class="trailer">Watch trailer</a>
+
+        {% if item.item_id in owned %}
+            <div class="footer">
+                <p>Already owned</p>
+            </div>
+
+        {% elif item.item_id in cart %}
+            <div class="footer">
+                <p>Already in cart</p>
+                <a href="{{ url_for('cart') }}">View Cart</a>
+            </div>
+        {% else %}
+            <div class="footer">
+            <p>Price: {{ item.price }}</p>
+            <form action="{{ url_for('add_to_cart') }}" method="POST">
+                <input type="hidden" name="item_id" value="{{ item.item_id }}">
+                <button type="submit">Add to Cart</button>
+            </form>
+            </div>
+
+        {% endif %}
+
+
+    </div>
+
+
+</div>
+
+
+</div>
+</div>
+{% endblock %}

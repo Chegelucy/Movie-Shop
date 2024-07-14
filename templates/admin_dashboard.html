@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block head %}
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+{% endblock %}
+{% block content %}
+    <main>
+        <div class="head-title">
+            <div class="left">
+                <h1>Dashboard</h1>
+                <ul class="breadcrumb">
+                    <li>
+                        <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
+                    </li>
+                    <li><i class='bx bx-chevron-right'></i></li>
+                    <li>
+                        <a class="active" href="{{ url_for('admin_dashboard') }}">Home</a>
+                    </li>
+                </ul>
+            </div>
+            <a href="#" class="btn-download">
+                <i class='bx bxs-crown'></i>
+                <span class="text">Admin</span>
+            </a>
+        </div>
+
+        <ul class="box-info">
+            <li>
+                <i class='bx bxs-calendar-check'></i>
+                <span class="text">
+                <h3>{{ item_count }}</h3>
+                <p>Movies in stock</p>
+            </span>
+            </li>
+            <li>
+                <i class='bx bxs-group'></i>
+                <span class="text">
+                <h3>{{ user_count }}</h3>
+                <p>Total users</p>
+            </span>
+            </li>
+            <li>
+                <i class='bx bxs-dollar-circle'></i>
+                <span class="text">
+                <h3>Ksh {{ purchase_count }}</h3>
+                <p>Total Sales</p>
+            </span>
+            </li>
+        </ul>
+
+
+        <div class="table-data">
+            <div class="order">
+                <div class="head">
+                    <h3>Recent Orders</h3>
+                </div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Date Order</th>
+                        <th>Amount</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for purchase in purchases %}
+                        <tr>
+                            <td>
+                                <img src="{{ url_for('static', filename='images/profile.png') }}">
+                                <p>{{ purchase.user_id }}</p>
+                            </td>
+                            <td>{{ purchase.date }}</td>
+                            <td><span class="status completed">Ksh {{ purchase.total_price }}</span></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="todo">
+                <div class="head">
+                    <h3>Top Purchases</h3>
+                </div>
+                <ul class="todo-list">
+                    {% for purchase in most_purchased %}
+                        <li class="completed">
+                            <p>Id: {{ purchase[0] }}</p>
+                            <p class="times">{{ purchase[1] }}</p>
+                            <p class="moviename">Purchases: {{ purchase[2] }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </main>
+
+{% endblock %}
